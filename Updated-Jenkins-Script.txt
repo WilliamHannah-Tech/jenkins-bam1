@@ -101,20 +101,3 @@ sudo systemctl status Jenkins
 # Q to quit lol
 
 
-
-Public Ip address of ec2 followed by 8080 http://4.88.27.89:8080
-This command is for the password 
-sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-
-
-
-
----------------------Disk Space ----------------------
-
-Go to Manage Jenkins → Nodes → Built-in Node 
-df -h /tmp
-mount | grep /tmp
-sudo mount -o remount,size=4G /tmp
-sudo systemctl restart jenkins
-
-
