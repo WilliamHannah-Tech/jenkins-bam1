@@ -1,0 +1,120 @@
+#!/bin/bash
+
+# --------------------------------------
+# Update all installed packages
+# --------------------------------------
+sudo yum update -y
+
+# --------------------------------------
+# Add the Jenkins repository to yum sources
+# --------------------------------------
+sudo wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
+
+# --------------------------------------
+# Import the Jenkins GPG key to verify packages
+# --------------------------------------
+sudo rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io-2023.key
+
+# --------------------------------------
+# Upgrade all packages
+# --------------------------------------
+sudo yum upgrade -y
+
+# --------------------------------------
+# Install Java 21
+# --------------------------------------
+sudo yum install java-21-amazon-corretto -y
+
+# --------------------------------------
+# Install Jenkins
+# --------------------------------------
+sudo yum install jenkins -y
+
+# --------------------------------------
+# Install Git
+# --------------------------------------
+sudo yum install git -y
+
+# --------------------------------------
+# Install python3
+# --------------------------------------
+sudo yum install -y python3
+
+# --------------------------------------
+# Install Terraform
+# --------------------------------------
+sudo dnf install -y python3 dnf-plugins-core
+sudo dnf config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+sudo dnf install -y terraform
+
+# --------------------------------------
+# Install requested Jenkins plugins
+# --------------------------------------
+
+sudo jenkins-plugin-cli --plugins \
+aws-credentials \
+pipeline-aws \
+ec2 \
+amazon-ecs \
+codedeploy \
+aws-lambda \
+aws-codebuild \
+aws-bucket-credentials \
+aws-secrets-manager-secret-source \
+aws-codepipeline \
+configuration-as-code-secret-ssm \
+jenkins-cloudformation-plugin \
+aws-sam \
+terraform \
+kubernetes \
+google-storage-plugin \
+google-kubernetes-engine \
+gcp-java-sdk-auth \
+pipeline-gcp \
+snyk-security-scanner \
+sonar \
+aqua-security-scanner \
+aqua-microscanner \
+aqua-serverless \
+github-pullrequest \
+github-oauth \
+pipeline-github \
+pipeline-githubnotify-step \
+maven-plugin \
+pipeline-maven \
+publish-over-ssh
+
+# --------------------------------------
+# Enable Jenkins to start at boot
+# --------------------------------------
+sudo systemctl enable jenkins
+
+# --------------------------------------
+# Start Jenkins
+# --------------------------------------
+sudo systemctl start jenkins
+
+# --------------------------------------
+# Optional: Check status
+# --------------------------------------
+sudo systemctl status Jenkins
+# Q to quit lol
+
+
+
+Public Ip address of ec2 followed by 8080 http://4.88.27.89:8080
+This command is for the password 
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+
+
+---------------------Disk Space ----------------------
+
+Go to Manage Jenkins → Nodes → Built-in Node 
+df -h /tmp
+mount | grep /tmp
+sudo mount -o remount,size=4G /tmp
+sudo systemctl restart jenkins
+
+
